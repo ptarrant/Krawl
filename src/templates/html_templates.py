@@ -28,6 +28,11 @@ def phpmyadmin() -> str:
     return load_template("phpmyadmin")
 
 
+def wp_login() -> str:
+    """Generate fake WordPress login page"""
+    return load_template("wp_login")
+
+
 def robots_txt() -> str:
     """Generate juicy robots.txt"""
     return load_template("robots.txt")

@@ -40,6 +40,9 @@ def load_template(name: str, **kwargs) -> str:
         >>> load_template("robots.txt")  # Loads html/robots.txt
         >>> load_template("directory_listing", path="/var/www", rows="<tr>...</tr>")
     """
+    # debug
+    # print(f"Loading Template: {name}")
+    
     # Check cache first
     if name not in _template_cache:
         # Determine file path based on whether name has an extension
@@ -58,7 +61,6 @@ def load_template(name: str, **kwargs) -> str:
     # Apply substitutions if kwargs provided
     if kwargs:
         template = template.format(**kwargs)
-
     return template
 
 

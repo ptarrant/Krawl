@@ -249,18 +249,19 @@ class Handler(BaseHTTPRequestHandler):
                 self.wfile.write(api_response('/api/config').encode())
             return True
         
-        if path in ['/admin', '/admin/', '/admin/login', '/login', '/wp-login.php']:
+        if path in ['/admin', '/admin/', '/admin/login', '/login']:
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
             self.wfile.write(html_templates.login_form().encode())
             return True
         
-        if path == '/wp-admin' or path == '/wp-admin/':
+        # WordPress login page
+        if path in ['/wp-login.php', '/wp-login', '/wp-admin', '/wp-admin/']:
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
-            self.wfile.write(html_templates.login_form().encode())
+            self.wfile.write(html_templates.wp_login().encode())
             return True
         
         if path in ['/wp-content/', '/wp-includes/'] or 'wordpress' in path.lower():
