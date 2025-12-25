@@ -197,96 +197,114 @@ class Handler(BaseHTTPRequestHandler):
         """Handle POST requests (mainly login attempts)"""
         client_ip = self._get_client_ip()
         user_agent = self._get_user_agent()
-        
-        self.tracker.record_access(client_ip, self.path, user_agent)
-        
+        post_data = ""
+               
         print(f"[LOGIN ATTEMPT] {client_ip} - {self.path} - {user_agent[:50]}")
         
         content_length = int(self.headers.get('Content-Length', 0))
         if content_length > 0:
-            post_data = self.rfile.read(content_length).decode('utf-8')
+            post_data = self.rfile.read(content_length).decode('utf-8', errors="replace")
+            
             print(f"[POST DATA] {post_data[:200]}")
+
+        # send the post data (body) to the record_access function so the post data can be used to detect suspicious things.
+        self.tracker.record_access(client_ip, self.path, user_agent, post_data)
         
         time.sleep(1)
         
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
-        self.wfile.write(html_templates.login_error().encode())
+        try:
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            self.wfile.write(html_templates.login_error().encode())
+        except BrokenPipeError:
+            # Client disconnected before receiving response, ignore silently
+            pass
+        except Exception as e:
+            # Log other exceptions but don't crash
+            print(f"[ERROR] Failed to send response to {client_ip}: {str(e)}")
 
     def serve_special_path(self, path: str) -> bool:
         """Serve special paths like robots.txt, API endpoints, etc."""
         
-        if path == '/robots.txt':
-            self.send_response(200)
-            self.send_header('Content-type', 'text/plain')
-            self.end_headers()
-            self.wfile.write(html_templates.robots_txt().encode())
-            return True
-        
-        if path in ['/credentials.txt', '/passwords.txt', '/admin_notes.txt']:
-            self.send_response(200)
-            self.send_header('Content-type', 'text/plain')
-            self.end_headers()
-            if 'credentials' in path:
-                self.wfile.write(credentials_txt().encode())
-            else:
-                self.wfile.write(passwords_txt().encode())
-            return True
-        
-        if path in ['/users.json', '/api_keys.json', '/config.json']:
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            if 'users' in path:
-                self.wfile.write(users_json().encode())
-            elif 'api_keys' in path:
-                self.wfile.write(api_keys_json().encode())
-            else:
-                self.wfile.write(api_response('/api/config').encode())
-            return True
-        
-        if path in ['/admin', '/admin/', '/admin/login', '/login', '/wp-login.php']:
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(html_templates.login_form().encode())
-            return True
-        
-        if path == '/wp-admin' or path == '/wp-admin/':
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(html_templates.login_form().encode())
-            return True
-        
-        if path in ['/wp-content/', '/wp-includes/'] or 'wordpress' in path.lower():
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(html_templates.wordpress().encode())
-            return True
-        
-        if 'phpmyadmin' in path.lower() or path in ['/pma/', '/phpMyAdmin/']:
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(html_templates.phpmyadmin().encode())
-            return True
-        
-        if path.startswith('/api/') or path.startswith('/api') or path in ['/.env']:
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            self.wfile.write(api_response(path).encode())
-            return True
-        
-        if path in ['/backup/', '/uploads/', '/private/', '/admin/', '/config/', '/database/']:
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(directory_listing(path).encode())
-            return True
+        try:
+            if path == '/robots.txt':
+                self.send_response(200)
+                self.send_header('Content-type', 'text/plain')
+                self.end_headers()
+                self.wfile.write(html_templates.robots_txt().encode())
+                return True
+            
+            if path in ['/credentials.txt', '/passwords.txt', '/admin_notes.txt']:
+                self.send_response(200)
+                self.send_header('Content-type', 'text/plain')
+                self.end_headers()
+                if 'credentials' in path:
+                    self.wfile.write(credentials_txt().encode())
+                else:
+                    self.wfile.write(passwords_txt().encode())
+                return True
+            
+            if path in ['/users.json', '/api_keys.json', '/config.json']:
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                if 'users' in path:
+                    self.wfile.write(users_json().encode())
+                elif 'api_keys' in path:
+                    self.wfile.write(api_keys_json().encode())
+                else:
+                    self.wfile.write(api_response('/api/config').encode())
+                return True
+            
+            if path in ['/admin', '/admin/', '/admin/login', '/login']:
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write(html_templates.login_form().encode())
+                return True
+            
+            # WordPress login page
+            if path in ['/wp-login.php', '/wp-login', '/wp-admin', '/wp-admin/']:
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write(html_templates.wp_login().encode())
+                return True
+            
+            if path in ['/wp-content/', '/wp-includes/'] or 'wordpress' in path.lower():
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write(html_templates.wordpress().encode())
+                return True
+            
+            if 'phpmyadmin' in path.lower() or path in ['/pma/', '/phpMyAdmin/']:
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write(html_templates.phpmyadmin().encode())
+                return True
+            
+            if path.startswith('/api/') or path.startswith('/api') or path in ['/.env']:
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(api_response(path).encode())
+                return True
+            
+            if path in ['/backup/', '/uploads/', '/private/', '/admin/', '/config/', '/database/']:
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write(directory_listing(path).encode())
+                return True
+        except BrokenPipeError:
+            # Client disconnected, ignore silently
+            pass
+        except Exception as e:
+            print(f"[ERROR] Failed to serve special path {path}: {str(e)}")
+            pass
         
         return False
 
@@ -302,6 +320,8 @@ class Handler(BaseHTTPRequestHandler):
             try:
                 stats = self.tracker.get_stats()
                 self.wfile.write(generate_dashboard(stats).encode())
+            except BrokenPipeError:
+                pass
             except Exception as e:
                 print(f"Error generating dashboard: {e}")
             return
@@ -333,6 +353,9 @@ class Handler(BaseHTTPRequestHandler):
             
             if Handler.counter < 0:
                 Handler.counter = self.config.canary_token_tries
+        except BrokenPipeError:
+            # Client disconnected, ignore silently
+            pass
         except Exception as e:
             print(f"Error generating page: {e}")
 
