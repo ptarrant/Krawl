@@ -7,6 +7,8 @@ Disallow: /database/
 Disallow: /private/
 Disallow: /uploads/
 Disallow: /wp-admin/
+Disallow: /login/
+Disallow: /admin/login
 Disallow: /phpMyAdmin/
 Disallow: /admin/login.php
 Disallow: /api/v1/users

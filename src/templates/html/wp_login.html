@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width">
     <meta name="robots" content="max-image-preview:large, noindex, noarchive">
     <title>Log In &lsaquo; WordPress &mdash; WordPress</title>
-    <style>
-        html {{
+    <style type="text/css">
+        html {
             background: #f0f0f1;
             min-height: 100%;
-        }}
-        body {{
+        }
+        body {
             background: #f0f0f1;
             min-height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
@@ -19,34 +19,45 @@
             color: #3c434a;
             margin: 0;
             padding: 0;
-        }}
-        a {{
+        }
+        a {
             color: #2271b1;
             text-decoration: none;
-        }}
-        a:hover, a:active {{
+        }
+        a:hover, a:active {
             color: #135e96;
-        }}
-        #login {{
+        }
+        #login {
             width: 320px;
             padding: 8% 0 0;
             margin: auto;
-        }}
-        #login h1 {{
+        }
+        #login h1 {
             text-align: center;
-        }}
-        #login h1 a {{
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4NCA4NCI+PHBhdGggZD0iTTQyIDBDMTguOCAwIDAgMTguOCAwIDQyczE4LjggNDIgNDIgNDIgNDItMTguOCA0Mi00MlM2NS4yIDAgNDIgMHptMCA3OC40QzIxLjggNzguNCA1LjYgNjIuMiA1LjYgNDJTMjEuOCA1LjYgNDIgNS42IDc4LjQgMjEuOCA3OC40IDQyIDYyLjIgNzguNCA0MiA3OC40ek0yMC4xIDQyYzAgNy42IDQuNSAxNC4yIDEwLjkgMTcuM2wtOS4yLTI1LjJjLTEuMSAyLjUtMS43IDUuMi0xLjcgNy45em0zNi44LTEuMWMwLTIuNC0uOS01LjYtMi40LTcuMi0xLjUtMi0zLTMuNC0zLTUuMiAwLTIgMS41LTMuOSAzLjctMy45aC4zYy00LjktNC42LTExLjQtNy40LTE4LjUtNy40LTkuNiAwLTE4IDQuOS0yMi45IDEyLjMuNiAwIDEuMiAwIDEuNyAwIDIuOCAwIDcuMi0uMyA3LjItLjNzLjItLjEuMi0uMi0xLjUtLjEtMS41LS4xYy45LTEuMSAxLjYtMy4xIDEuNi0zLjEuMiAwIDEuOS41IDIuNS41cy42LjEuNi4xYy0xLjMuOC0xLjUgMy4xLTEuNSAzLjFzMCAuNC40LjRjLjMgMCAuOC0uMy44LS4zLjguNCAxLjcgMi4xIDEuNyAyLjF2LS4yYy42IDEuNCAyLjMgNS4yIDIuMyA1LjIgMS4xIDMuMiAyLjggNS41IDQuMSA3LjIgMS4zIDEuNyAyLjggMy4xIDQuNCAzLjggNC4yLTEuMSA3LjItNC4zIDguNS03LjZsLjItLjVjLjEtLjMuMi0uNi40LTFsLTYuNi0xOGMtLjYtMS42LTEtMi43LTEuNC0zLjhoLS41Yy0uNCAwLS43LjEtLjcuMS0uMS4xLjIuMi4yLjJzMS40LjEgMi4yLjRjLjkuMiAyIC43IDIgLjcuMy4xLjcuMy43LjNzLjEgMCAuMS0uMWMwIDAgLjEtLjItLjQtLjQtLjMtLjEtMS0uMy0xLjYtLjUtLjUtLjEtLjktLjItMS0uMi0uMSAwLS4xLS4xLS4xLS4xdi0uMWMwIC4xLjEuMS4xLjFzMCAuMS0uMS4xYy0uMi4xLjEuMy41LjVzLjkuNSAxLjQuN2MuNi4zIDEuMS43IDEuNC45LjMuMy42LjkuOSAxLjIuMy40LjYgMS4xLjggMS43bDQuMSAxMy44YzIuNy0xLjEgNC42LTMuNyA0LjYtNi43eiIgZmlsbD0iIzMzMzMzMyIvPjwvc3ZnPg==');
-            background-size: 84px;
-            background-position: center top;
-            background-repeat: no-repeat;
+            margin: 0 0 20px;
+        }
+        #login h1 {
+            text-align: center;
+            margin: 0 0 30px;
+            font-size: 28px;
+            font-weight: 400;
             color: #3c434a;
-            height: 84px;
-            font-size: 0;
+        }
+        
+        #login h1 a {
+            color: #2271b1;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 28px;
             display: block;
-            outline: 0;
-        }}
-        .login form {{
+            background: none;
+            height: auto;
+        }
+        
+        #login h1 a:hover {
+            color: #135e96;
+        }
+        .login form {
             margin-top: 20px;
             margin-left: 0;
             padding: 26px 24px 34px;
@@ -55,8 +66,8 @@
             background: #fff;
             border: 1px solid #c3c4c7;
             box-shadow: 0 1px 3px rgba(0, 0, 0, .04);
-        }}
-        .login form .input, .login input[type="text"], .login input[type="password"] {{
+        }
+        .login form .input, .login input[type="text"], .login input[type="password"] {
             font-size: 24px;
             width: 100%;
             padding: 3px;
@@ -66,29 +77,29 @@
             box-shadow: none;
             color: #2c3338;
             outline: none;
-        }}
-        .login form .input:focus {{
+        }
+        .login form .input:focus {
             border-color: #2271b1;
             box-shadow: 0 0 0 1px #2271b1;
-        }}
-        .login label {{
+        }
+        .login label {
             font-size: 14px;
             line-height: 1.5;
-            display: inline-block;
-            margin-bottom: 3px;
-        }}
-        .login .forgetmenot {{
+            display: block;
+            margin-bottom: 8px;
+        }
+        .login .forgetmenot {
             margin: 2px 0 24px;
-        }}
-        .login .forgetmenot label {{
+        }
+        .login .forgetmenot label {
             font-size: 12px;
             display: flex;
             align-items: center;
-        }}
-        .login .forgetmenot input {{
+        }
+        .login .forgetmenot input {
             margin: 0 4px 0 0;
-        }}
-        .wp-hide-pw {{
+        }
+        .wp-hide-pw {
             position: absolute;
             right: 0;
             top: 0;
@@ -98,17 +109,17 @@
             border: none;
             color: #2271b1;
             cursor: pointer;
-        }}
-        .wp-hide-pw:hover {{
+        }
+        .wp-hide-pw:hover {
             color: #135e96;
-        }}
-        .user-pass-wrap {{
+        }
+        .user-pass-wrap {
             position: relative;
-        }}
-        .wp-pwd {{
+        }
+        .wp-pwd {
             position: relative;
-        }}
-        #wp-submit {{
+        }
+        #wp-submit {
             float: right;
             text-decoration: none;
             font-size: 13px;
@@ -123,57 +134,57 @@
             box-sizing: border-box;
             background: #2271b1;
             color: #fff;
-        }}
-        #wp-submit:hover {{
+        }
+        #wp-submit:hover {
             background: #135e96;
             border-color: #135e96;
             color: #fff;
-        }}
-        p.submit {{
+        }
+        p.submit {
             margin-bottom: 0;
-        }}
-        #nav {{
+        }
+        #nav {
             margin: 24px 0 0 0;
             padding: 0;
             text-align: center;
-        }}
-        #nav a {{
+        }
+        #nav a {
             color: #50575e;
-        }}
-        #nav a:hover {{
+        }
+        #nav a:hover {
             color: #135e96;
-        }}
-        #backtoblog {{
+        }
+        #backtoblog {
             margin: 16px 0 0 0;
             padding: 0;
             text-align: center;
-        }}
-        #backtoblog a {{
+        }
+        #backtoblog a {
             color: #50575e;
-        }}
-        #backtoblog a:hover {{
+        }
+        #backtoblog a:hover {
             color: #135e96;
-        }}
-        .privacy-policy-page-link {{
+        }
+        .privacy-policy-page-link {
             text-align: center;
             margin-top: 16px;
-        }}
-        .privacy-policy-page-link a {{
+        }
+        .privacy-policy-page-link a {
             color: #50575e;
             font-size: 12px;
-        }}
-        @media screen and (max-width: 400px) {{
-            #login {{
+        }
+        @media screen and (max-width: 400px) {
+            #login {
                 width: 100%;
                 padding: 20px;
                 box-sizing: border-box;
-            }}
-        }}
+            }
+        }
     </style>
 </head>
 <body class="login js login-action-login wp-core-ui locale-en-us">
     <div id="login">
-        <h1><a href="https://wordpress.org/">Powered by WordPress</a></h1>
+        <h1><a href="https://wordpress.org/">WordPress Login</a></h1>
         <form name="loginform" id="loginform" action="/wp-login.php" method="post">
             <p>
                 <label for="user_login">Username or Email Address</label>

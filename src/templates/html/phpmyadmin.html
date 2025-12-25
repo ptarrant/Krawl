@@ -1,285 +1,166 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex,nofollow">
     <title>phpMyAdmin</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect fill='%236c78af' width='32' height='32' rx='4'/><text x='16' y='22' font-size='18' fill='white' text-anchor='middle' font-family='sans-serif' font-weight='bold'>pma</text></svg>">
     <style>
-        * {{
-            box-sizing: border-box;
-        }}
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            font-size: 14px;
-            background: #fffffc;
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
             margin: 0;
-            padding: 0;
-            color: #444;
-        }}
-        #page_content {{
-            margin: 0 auto;
-            max-width: 960px;
-            padding: 20px;
-        }}
-        .container-fluid {{
-            display: flex;
-            min-height: 100vh;
-        }}
-        #pma_navigation {{
-            width: 240px;
-            background: #f3f3f3;
-            border-right: 1px solid #ddd;
-            padding: 10px;
-        }}
-        #pma_navigation_header {{
-            text-align: center;
-            padding: 15px 10px;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 10px;
-        }}
-        #pma_navigation_header img {{
-            max-width: 160px;
-        }}
-        .logo-text {{
+            background: #f0f0f0;
+        }
+        .header {
+            background: #2979ff;
+            color: white;
+            padding: 10px 20px;
+        }
+        .header h1 {
+            margin: 0;
             font-size: 24px;
-            font-weight: bold;
-            color: #6c78af;
-        }}
-        .logo-text span {{
-            color: #f89c0e;
-        }}
-        #pma_main {{
-            flex: 1;
-            padding: 20px;
-            background: #fff;
-        }}
-        .login_form {{
-            max-width: 500px;
-            margin: 40px auto;
-            background: #fff;
+        }
+        .login {
+            background: white;
+            width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .login h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        input[type="text"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
             border: 1px solid #ddd;
             border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-        }}
-        .login_form h1 {{
-            background: #f3f3f3;
-            margin: 0;
-            padding: 15px 20px;
-            font-size: 16px;
-            font-weight: normal;
-            border-bottom: 1px solid #ddd;
-            color: #333;
-        }}
-        .login_form h1 img {{
-            vertical-align: middle;
-            margin-right: 8px;
-        }}
-        .login_form form {{
-            padding: 20px;
-        }}
-        .item {{
-            margin-bottom: 15px;
-        }}
-        .item label {{
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-            color: #333;
-        }}
-        .item input[type="text"],
-        .item input[type="password"],
-        .item select {{
-            width: 100%;
-            padding: 8px 10px;
-            border: 1px solid #aaa;
-            border-radius: 2px;
+            box-sizing: border-box;
             font-size: 14px;
-            background: #fff;
-        }}
-        .item input:focus,
-        .item select:focus {{
-            border-color: #6c78af;
+        }
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            border-color: #2979ff;
             outline: none;
-            box-shadow: 0 0 0 2px rgba(108, 120, 175, 0.2);
-        }}
-        .item select {{
-            cursor: pointer;
-        }}
-        .checkbox-item {{
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }}
-        .checkbox-item input {{
-            margin: 0;
-        }}
-        fieldset {{
-            border: 1px solid #ddd;
-            border-radius: 2px;
-            padding: 15px;
-            margin: 0 0 15px 0;
-        }}
-        legend {{
+            box-shadow: 0 0 0 2px rgba(41, 121, 255, 0.1);
+        }
+        label {
+            display: block;
+            margin: 12px 0 5px 0;
             font-weight: 500;
-            padding: 0 8px;
             color: #333;
-        }}
-        .btn {{
-            display: inline-block;
-            padding: 8px 20px;
-            background: #6c78af;
-            color: #fff;
+            font-size: 13px;
+        }
+        button {
+            width: 100%;
+            padding: 10px 20px;
+            background: #2979ff;
+            color: white;
             border: none;
-            border-radius: 2px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 14px;
             font-weight: 500;
-        }}
-        .btn:hover {{
-            background: #5a6699;
-        }}
-        .server-choice {{
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }}
-        .server-choice label {{
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-        }}
-        .footer {{
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #ddd;
-            font-size: 12px;
-            color: #888;
-        }}
-        .footer a {{
-            color: #6c78af;
-            text-decoration: none;
-        }}
-        .footer a:hover {{
-            text-decoration: underline;
-        }}
-        .lang-select {{
+            margin-top: 15px;
+        }
+        button:hover {
+            background: #1565c0;
+        }
+        button:active {
+            background: #0d47a1;
+        }
+        .lang-select {
             margin-top: 15px;
             padding-top: 15px;
             border-top: 1px solid #eee;
-        }}
-        .lang-select label {{
+        }
+        .lang-select label {
             display: inline;
             margin-right: 10px;
-        }}
-        .lang-select select {{
+            margin: 0 10px 0 0;
+        }
+        .lang-select select {
             width: auto;
             padding: 5px 10px;
-        }}
-        .nav-item {{
-            padding: 8px 12px;
-            color: #333;
+            margin: 8px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #888;
+        }
+        .footer a {
+            color: #2979ff;
             text-decoration: none;
-            display: block;
-            border-radius: 2px;
-        }}
-        .nav-item:hover {{
-            background: #e8e8e8;
-        }}
-        .error-message {{
-            display: none;
-        }}
-        @media (max-width: 768px) {{
-            .container-fluid {{
-                flex-direction: column;
-            }}
-            #pma_navigation {{
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid #ddd;
-            }}
-            .login_form {{
-                margin: 20px;
-            }}
-        }}
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 480px) {
+            .login {
+                width: 90%;
+                margin: 50px auto;
+                padding: 20px;
+            }
+            .login h2 {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div id="pma_navigation">
-            <div id="pma_navigation_header">
-                <div class="logo-text">php<span>My</span>Admin</div>
+    <div class="header">
+        <h1>phpMyAdmin</h1>
+    </div>
+    <div class="login">
+        <h2>MySQL Server Login</h2>
+        <form action="/phpmyadmin/index.php" method="post" autocomplete="off">            
+            <label for="username">Username:</label>
+            <input type="text" name="pma_username" id="username" placeholder="Username" autocomplete="username" autofocus>
+            
+            <label for="password">Password:</label>
+            <input type="password" name="pma_password" id="password" placeholder="Password" autocomplete="current-password">
+            
+            <button type="submit">Go</button>
+            
+            <div class="lang-select">
+                <label for="lang">Language:</label>
+                <select name="lang" id="lang">
+                    <option value="en" selected>English</option>
+                    <option value="de">Deutsch</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="it">Italiano</option>
+                    <option value="ja">日本語</option>
+                    <option value="ko">한국어</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="pl">Polski</option>
+                    <option value="pt">Português</option>
+                    <option value="ru">Русский</option>
+                    <option value="zh">中文</option>
+                </select>
             </div>
-            <nav>
-                <a href="#" class="nav-item">Databases</a>
-                <a href="#" class="nav-item">SQL</a>
-                <a href="#" class="nav-item">Status</a>
-                <a href="#" class="nav-item">User accounts</a>
-                <a href="#" class="nav-item">Export</a>
-                <a href="#" class="nav-item">Import</a>
-                <a href="#" class="nav-item">Settings</a>
-            </nav>
-        </div>
-        <div id="pma_main">
-            <div class="login_form">
-                <h1>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6c78af" stroke-width="2" style="vertical-align: middle; margin-right: 8px;">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                    </svg>
-                    Log in
-                </h1>
-                <form method="post" action="/phpmyadmin/index.php" name="login_form" autocomplete="off">
-                    <fieldset>
-                        <legend>Log in</legend>
-                        <div class="item">
-                            <label for="input_servername">Server Choice:</label>
-                            <select name="server" id="input_servername">
-                                <option value="1">127.0.0.1</option>
-                                <option value="2">localhost</option>
-                            </select>
-                        </div>
-                        <div class="item">
-                            <label for="input_username">Username:</label>
-                            <input type="text" name="pma_username" id="input_username" value="" autocomplete="username" autofocus>
-                        </div>
-                        <div class="item">
-                            <label for="input_password">Password:</label>
-                            <input type="password" name="pma_password" id="input_password" value="" autocomplete="current-password">
-                        </div>
-                    </fieldset>
-                    <input type="hidden" name="token" value="a1b2c3d4e5f6g7h8i9j0">
-                    <input type="hidden" name="set_session" value="1">
-                    <button type="submit" class="btn" id="input_go" value="Log in">Log in</button>
-                    <div class="lang-select">
-                        <label for="lang_select">Language:</label>
-                        <select name="lang" id="lang_select">
-                            <option value="en" selected>English</option>
-                            <option value="de">Deutsch</option>
-                            <option value="es">Español</option>
-                            <option value="fr">Français</option>
-                            <option value="it">Italiano</option>
-                            <option value="ja">日本語</option>
-                            <option value="ko">한국어</option>
-                            <option value="nl">Nederlands</option>
-                            <option value="pl">Polski</option>
-                            <option value="pt">Português</option>
-                            <option value="ru">Русский</option>
-                            <option value="zh">中文</option>
-                        </select>
-                    </div>
-                </form>
-                <div class="footer">
-                    <a href="https://www.phpmyadmin.net/docs/" target="_blank">Documentation</a> |
-                    <a href="https://www.phpmyadmin.net/" target="_blank">Official Homepage</a> |
-                    <a href="https://github.com/phpmyadmin/phpmyadmin" target="_blank">Contribute</a>
-                    <br><br>
-                    phpMyAdmin 5.2.1
-                </div>
-            </div>
+            
+            <input type="hidden" name="token" value="a1b2c3d4e5f6g7h8i9j0">
+            <input type="hidden" name="set_session" value="1">
+        </form>
+        
+        <div class="footer">
+            <a href="https://www.phpmyadmin.net/docs/" target="_blank">Documentation</a> |
+            <a href="https://www.phpmyadmin.net/" target="_blank">Official Homepage</a> |
+            <a href="https://github.com/phpmyadmin/phpmyadmin" target="_blank">Contribute</a>
+            <br><br>
+            phpMyAdmin 5.2.1
         </div>
     </div>
 </body>
